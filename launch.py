@@ -1,8 +1,15 @@
+import time
 import uvicorn
 import argparse
 
+from assets.logo import get_logo
 from main import app
 from configs import config
+from rich.console import Console
+from rich.table import Column, Table
+from rich.progress import track
+
+from utils.Mysql import Mysql
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
@@ -13,9 +20,39 @@ def parse_arguments():
 
 if __name__ == "__main__":
 
-    args = parse_arguments()
+    cursor = Mysql().getCursor()
 
+    # 查询数据库版本信息
+    cursor.execute('SELECT VERSION()')
+    # 获取查询结果
+    db_version = cursor.fetchone()[0]
+
+    # 查询数据库中所有表的数量
+    cursor.execute("SHOW TABLES")
+    # 获取查询结果
+    tables = cursor.fetchall()
+
+
+    print(get_logo())
+
+    for step in track(range(len(tables)), description=f"[bold]Connecting to[/bold] [green]{config.DB_NAME}@{config.DB_HOST}:{str(config.DB_PORT)}[/green]"):
+        time.sleep(0.9)
+
+    console = Console()
+    table = Table(show_header=True, header_style="bold magenta")
+    table.add_column("Version", style="dim", width=12)
+    table.add_column("Database")
+    table.add_column("Host", justify="right")
+    table.add_column("Port", justify="right")
+    table.add_row(db_version, config.DB_NAME, config.DB_HOST, str(config.DB_PORT))
+    console.print(table)
+
+    args = parse_arguments()
     if args.reload==True:
         uvicorn.run("main:app", host=args.host, port=args.port, reload=args.reload)
+    # End if
     else:
         uvicorn.run(app, host=args.host, port=args.port, reload=False)
+    # End else
+        
+# End

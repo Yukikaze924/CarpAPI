@@ -5,7 +5,7 @@ A simple api to interact with database
 
 
     
-## Deploy
+## Deployment
 
 Clone the project
 
@@ -37,6 +37,8 @@ Start the server
 
 To run this project on your server, you will need to edit the following variables in your config.py file
 
+Edit according to your needs **(～￣▽￣)～**
+
 `BASE_URL`
 
 `BASE_PORT`
@@ -50,3 +52,5 @@ To run this project on your server, you will need to edit the following variable
 `DB_PASSWORD`
 
 `DB_NAME`
+
+`......`
