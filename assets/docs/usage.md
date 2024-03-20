@@ -8,11 +8,7 @@ Start the server
 
 #### Or
 
-<<<<<<< HEAD
 ```bash
-=======
-```http
->>>>>>> 72afe94385a13e94c6bcd456f6ce576e37e06ba7
     python launch.py --host x.x.x.x --port xx --reload
 ```
 
