@@ -14,3 +14,4 @@ class Log:
         )
         log = logging.getLogger("rich")
         return log
+    

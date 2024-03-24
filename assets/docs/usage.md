@@ -6,7 +6,7 @@ Start the server
   python launch.py 
 ```
 
-#### Or
+### Or
 
 ```bash
     python launch.py --host x.x.x.x --port xx --reload

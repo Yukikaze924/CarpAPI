@@ -59,10 +59,10 @@ if __name__ == '__main__':
 
     console = Console()
 
-    Log.getLogger().error("[bold red blink]This is not the entry point![/]", extra={"markup": True})
-
     with open("./assets/docs/usage.md", encoding='utf-8') as readme:
         markdown = Markdown(readme.read())
     
     console.print(markdown)
+
+    Log.getLogger().error("[bold red blink]This is not the entry point![/]", extra={"markup": True})
 # End

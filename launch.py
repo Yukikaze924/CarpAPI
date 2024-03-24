@@ -2,13 +2,18 @@ import time
 import uvicorn
 import argparse
 
-from assets.logo import get_logo
+from assets.logo import print_logo
 from main import app
 from configs import config
+
 from rich.console import Console
 from rich.table import Column, Table
 from rich.progress import track
+from rich.theme import Theme
+from rich import print
 
+from models.model import Logo
+from utils.Audio import play_audio_from
 from utils.Mysql import Mysql
 
 def parse_arguments():
@@ -21,6 +26,7 @@ def parse_arguments():
 if __name__ == "__main__":
 
     cursor = Mysql().getCursor()
+    console = Console()
 
     # 查询数据库版本信息
     cursor.execute('SELECT VERSION()')
@@ -32,13 +38,17 @@ if __name__ == "__main__":
     # 获取查询结果
     tables = cursor.fetchall()
 
+    # Print logo
+    print_logo(config.LOGO)
 
-    print(get_logo())
+    print("\n")
 
     for step in track(range(len(tables)), description=f"[bold]Connecting to[/bold] [green]{config.DB_NAME}@{config.DB_HOST}:{str(config.DB_PORT)}[/green]"):
-        time.sleep(0.9)
+        time.sleep(0.4)
+    play_audio_from(config.LAUNCH_AUDIO)
 
-    console = Console()
+    print("\n")
+
     table = Table(show_header=True, header_style="bold magenta")
     table.add_column("Version", style="dim", width=12)
     table.add_column("Database")
@@ -46,6 +56,7 @@ if __name__ == "__main__":
     table.add_column("Port", justify="right")
     table.add_row(db_version, config.DB_NAME, config.DB_HOST, str(config.DB_PORT))
     console.print(table)
+    
 
     args = parse_arguments()
     if args.reload==True:
