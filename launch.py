@@ -45,7 +45,13 @@ if __name__ == "__main__":
 
     for step in track(range(len(tables)), description=f"[bold]Connecting to[/bold] [green]{config.DB_NAME}@{config.DB_HOST}:{str(config.DB_PORT)}[/green]"):
         time.sleep(0.4)
-    play_audio_from(config.LAUNCH_AUDIO)
+
+    try:
+        play_audio_from(config.LAUNCH_AUDIO)
+    except:
+        console.print("[yellow][WARN][/yellow]: No audio driver detected!")
+        console.print("[yellow][WARN][/yellow]: Failed to play audio")
+        pass
 
     print("\n")
 
