@@ -2,7 +2,7 @@ from models.model import Logo
 
 
 # Basic configurations
-BASE_URL = '0.0.0.0'
+BASE_URL = '127.0.0.1'
 BASE_PORT = 8000
 
 # Database configuration
